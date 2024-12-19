@@ -13,21 +13,21 @@ class MahasiswaSeeder extends Seeder
     public function run(): void
     {
         Mahasiswa::create([
-            'nim' => '215150700111001',
-            'nama' => 'Ahmad Rifai',
-            'jurusan' => 'Teknologi Informasi',
-            'semester' => 5,
-            'email' => 'ahmad.rifai@student.ub.ac.id',
-            'no_hp' => '081234567890',
+            'nim' => '235150601111002',
+            'nama' => 'Najwa Afifah',
+            'jurusan' => 'Pendidikan Teknologi Informasi',
+            'semester' => 3,
+            'email' => 'najwaaafifah@student.ub.ac.id',
+            'no_hp' => '08971685300',
         ]);
 
         Mahasiswa::create([
-            'nim' => '215150700111002',
-            'nama' => 'Siti Rahmah',
-            'jurusan' => 'Teknik Komputer',
+            'nim' => '235150601111023',
+            'nama' => 'Aisyah Nur Zahra',
+            'jurusan' => 'Pendidikan Teknologi Informasi',
             'semester' => 3,
-            'email' => 'siti.rahmah@student.ub.ac.id',
-            'no_hp' => '082345678901',
+            'email' => 'aisyahnur@student.ub.ac.id',
+            'no_hp' => '08565423418',
         ]);
 
         Mahasiswa::create([
