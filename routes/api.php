@@ -3,6 +3,7 @@
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,46 +20,44 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-
-Route::prefix('barang')->group(function () {
+Route::middleware('auth:sanctum', 'throttle:5,1')->prefix('barang')->group(function () {
     Route::get('/', function (Request $request) {
         $barangs = Barang::all();
         if ($barangs->isEmpty()) {
-            return [
+            return response()->json([
                 'data' => [],
                 'status' => 'error',
-                'code' => 404
-            ];
+                'message' => 'Data barang kosong'
+            ], 404);
         }
-        return [
+        return response()->json([
             'data' => $barangs,
             'status' => 'success',
-            'code' => 200
-        ];
+        ], 200);
     });
+
     Route::get('/{id}', function (Request $request, $id) {
-        $barangs = Barang::find($id);
-        if ($barangs == null) {
-            return [
+        $barang = Barang::find($id);
+        if ($barang == null) {
+            return response()->json([
                 'data' => [],
                 'status' => 'error',
-                'code' => 404
-            ];
+                'message' => 'Barang tidak ditemukan'
+            ], 404);
         }
-        return [
-            'data' => $barangs,
+        return response()->json([
+            'data' => $barang,
             'status' => 'success',
-            'code' => 200
-        ];
+        ], 200);
     });
     
     Route::patch('/{id}', function (Request $request, $id) {
-        
-          $request->validate([
+        $request->validate([
             'jumlah' => 'required|integer|min:1',
         ]);
-
         
         $barang = Barang::find($id);
 
@@ -68,8 +67,7 @@ Route::prefix('barang')->group(function () {
                 'message' => 'Barang tidak ditemukan',
             ], 404);
         }
-
-   
+    
         if ($barang->stock < $request->jumlah) {
             return response()->json([
                 'status' => 'error',
@@ -83,10 +81,7 @@ Route::prefix('barang')->group(function () {
         return response()->json([
             'status' => 'success',
             'message' => 'Stok berhasil diperbarui',
-            'updated_stock' => $barang->stock,
+            'data' => $barang,
         ], 200);
     });
-    
-    
 });
-
